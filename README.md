@@ -3,6 +3,8 @@
 
 [![Build Status][image]][url]
 
+![preview](https://i.imgur.com/mGrZtQ9.png)
+
 Displays toggable skeet features in the;
 Rage tab,
 Anti-Aim tab,
