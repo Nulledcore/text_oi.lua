@@ -9,11 +9,13 @@ Anti-Aim tab,
 Legit tab,
 
 ## Installation
-Windows:
 ```
 Download the lua to Program Files (x86)\SteamLibrary\steamapps\common\Counter-Strike Global Offensive
 Run the lua through the lua manager.
 ```
+
+## Requirements
+surface.ljbc [ https://github.com/Aviarita/surface/blob/master/surface.ljbc ]
 
 ## Release History
 
