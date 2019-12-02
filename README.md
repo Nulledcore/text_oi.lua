@@ -21,5 +21,5 @@ Run the lua through the lua manager.
     * Release
  
 <!-- Markdown link & img dfn's -->
-[travis-image]: https://img.shields.io/travis/dbader/node-datadog-metrics/master.svg?style=flat-square
+[travis-image]: https://img.shields.io/badge/Release-0.1.0-lightgrey
 [travis-url]: https://github.com/XcH1337/text_oi.lua/blob/master/text_oi.lua
