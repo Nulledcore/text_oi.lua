@@ -21,5 +21,5 @@ Run the lua through the lua manager.
     * Release
  
 <!-- Markdown link & img dfn's -->
-[image]: https://img.shields.io/badge/RELEASE-0.1.0-blue?logo=lua
+[image]: https://img.shields.io/badge/RELEASE-0.1.0-blue?style=plastic
 [url]: https://github.com/XcH1337/text_oi.lua/blob/master/text_oi.lua
