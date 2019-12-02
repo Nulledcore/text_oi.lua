@@ -22,4 +22,4 @@ Run the lua through the lua manager.
  
 <!-- Markdown link & img dfn's -->
 [travis-image]: https://img.shields.io/travis/dbader/node-datadog-metrics/master.svg?style=flat-square
-[travis-url]: https://img.shields.io/travis/dbader/node-datadog-metrics/master.svg?style=flat-square
+[travis-url]: https://github.com/XcH1337/text_oi.lua/blob/master/text_oi.lua
