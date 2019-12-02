@@ -3,7 +3,7 @@
 
 [![Build Status][image]][url]
 
-![preview](https://i.imgur.com/mGrZtQ9.png)
+![preview](https://i.imgur.com/nrK2hiV.png)
 
 Displays toggable skeet features in the;
 Rage tab,
