@@ -18,6 +18,7 @@ Run the lua through the lua manager.
 
 ## Requirements
 surface.ljbc [ https://github.com/Aviarita/surface/blob/master/surface.ljbc ]
+fonts [ https://bit.ly/2sxLtDz & https://bit.ly/2P2nZOA ]
 
 ## Release History
 
