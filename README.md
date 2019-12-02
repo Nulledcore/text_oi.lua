@@ -1,7 +1,7 @@
 # text_io.lua
 > My spin on the popular x88 design.
 
-[![Build Status][travis-image]][travis-url]
+[![Build Status][image]][url]
 
 Displays toggable skeet features in the;
 Rage tab,
@@ -21,5 +21,5 @@ Run the lua through the lua manager.
     * Release
  
 <!-- Markdown link & img dfn's -->
-[travis-image]: https://img.shields.io/badge/Release-0.1.0-lightgrey
-[travis-url]: https://github.com/XcH1337/text_oi.lua/blob/master/text_oi.lua
+[image]: https://img.shields.io/badge/RELEASE-0.1.0-blue?logo=lua
+[url]: https://github.com/XcH1337/text_oi.lua/blob/master/text_oi.lua
