@@ -27,4 +27,4 @@ fonts [ https://bit.ly/2sxLtDz & https://bit.ly/2P2nZOA ]
  
 <!-- Markdown link & img dfn's -->
 [image]: https://img.shields.io/badge/RELEASE-0.1.0-blue?style=plastic
-[url]: https://github.com/XcH1337/text_oi.lua/blob/master/text_oi.lua
+[url]: https://github.com/XcH1337/text_oi.lua/releases/tag/0.1.0
