@@ -104,10 +104,10 @@ local function draw_rage(neww)
 		hitchance = "Off"
 		hitchanceR, hitchanceG, hitchanceB = 44, 62, 80
 	else
-		hitchance = ui_get(rage_hitchance)
+		hitchance = ui_get(rage_hitchance).."%"
 		hitchanceR, hitchanceG, hitchanceB = 52, 152, 219
 	end
-	renderer.draw_text(defh+70, defw+neww, hitchanceR, hitchanceG, hitchanceB, 255, active_font, hitchance.."%")
+	renderer.draw_text(defh+70, defw+neww, hitchanceR, hitchanceG, hitchanceB, 255, active_font, hitchance)
 
 	neww = neww + 15
 	renderer.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "MinDamage:")
