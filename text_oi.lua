@@ -7,6 +7,7 @@ local table_insert, table_remove = table.insert, table.remove
 local min, abs, sqrt, floor = math_min, math.abs, math.sqrt, math_floor
 local frametimes = {}
 local fps_prev = 0
+local toggle = ui.new_checkbox("lua", "a", "Toggle text_oi")
 
 --[[ let's load the surface library ]]
 local surface = require('gamesense/surface')
@@ -96,18 +97,18 @@ local function draw_rage(neww)
 		hitchance = ui_get(rage_hitchance).."%"
 		hitchanceR, hitchanceG, hitchanceB = 52, 152, 219
 	end
-	surface.draw_text(defh+70, defw+neww, hitchanceR, hitchanceG, hitchanceB, 255, active_font, hitchance)
+	surface.draw_text(defh+70, defw+neww, hitchanceR, hitchanceG, hitchanceB, 255, active_font, string.format("%s", hitchance))
 
 	neww = neww + 15
 	surface.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "MinDamage:")
-	if ui_get(rage_mindmg) <= 0 then
+	if ui_get(rage_mindmg) == 0 then
 		minimumdamage = "Auto"
 	elseif ui_get(rage_mindmg) >= 100 then
 		minimumdamage = "HP+"..ui_get(rage_mindmg)-100
 	else
 		minimumdamage = ui_get(rage_mindmg)
 	end
-	surface.draw_text(defh+77, defw+neww, 52, 152, 219, 255, active_font, minimumdamage)
+	surface.draw_text(defh+77, defw+neww, 52, 152, 219, 255, active_font, string.format("%s", minimumdamage))
 
 	neww = neww + 15
 	surface.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "AutoScope:")
@@ -279,6 +280,7 @@ local function draw_info(neww)
 end
 
 local function draw(ctx)
+	if not ui.get(toggle) then return end
 	if ui_get(rage_active) then
 		draw_rage(neww)
 	else
