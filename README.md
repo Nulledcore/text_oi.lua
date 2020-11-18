@@ -17,13 +17,15 @@ Run the lua through the lua manager.
 ```
 
 ## Requirements
-surface.ljbc [ https://github.com/Aviarita/surface/blob/master/surface.ljbc ]
+surface renderer [ https://gamesense.pub/forums/viewtopic.php?id=18793 ]
 fonts [ https://bit.ly/2sxLtDz & https://bit.ly/2P2nZOA ]
 
 ## Release History
 
-* 0.1.0
+* 1.0
     * Release
+* 1.2
+    * Update for latest release
  
 <!-- Markdown link & img dfn's -->
 [image]: https://img.shields.io/badge/RELEASE-0.1.0-blue?style=plastic
