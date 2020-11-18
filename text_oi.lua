@@ -9,30 +9,23 @@ local frametimes = {}
 local fps_prev = 0
 
 --[[ let's load the surface library ]]
-package.path = package.path .. ".\\?.lua;.\\?.ljbc;.\\lib\\?.lua;.\\libs\\?.lua;.\\lib\\?.ljbc;.\\libs\\?.ljbc;"
-local surface, err = pcall(require, "surface")
-if err and surface == false then
-	client_log(err)
-	error("Please download the surface library to use this script\nhttps://github.com/Aviarita/surface/blob/master/surface.ljbc")
-	return
-end
+local surface = require('gamesense/surface')
 
 --[[ let's give some credits :) ]]
 client_log("Credits > Aviarita - Surface library | Masterlooser15 - x88 inspiration")
 
 --[[ create fonts ]]
-local logo_font = renderer.create_font("cherryfont", 17, 400, {0x200})
-local info_font = renderer.create_font("cambria", 17, 700, {0x200})
-local small_font = renderer.create_font("smalle", 8, 100, {0x200})
-local default_font = renderer.create_font("Tahoma", 13, 400, {0x200})
-local active_font = renderer.create_font("Tahoma", 13, 700, {0x200})
+local logo_font = surface.create_font("cherryfont", 17, 400, {0x200})
+local info_font = surface.create_font("Cambria", 17, 700, {0x200})
+local small_font = surface.create_font("Small Fonts", 8, 100, {0x200})
+local default_font = surface.create_font("Tahoma", 13, 400, {0x200})
+local active_font = surface.create_font("Tahoma", 13, 700, {0x200})
 
 --[[ references ]]
 --[[ > rage ]]
 local rage_active = ui_reference("rage", "aimbot", "enabled")
 local rage_target = ui_reference("rage", "aimbot", "target selection")
 local rage_mp_scale = ui_reference("rage", "aimbot", "multi-point scale")
-local rage_dyn_mp = ui_reference("rage", "aimbot", "dynamic multi-point")
 local rage_autofire = ui_reference("rage", "aimbot", "automatic fire")
 local rage_autowall = ui_reference("rage", "aimbot", "automatic penetration")
 local rage_silentaim = ui_reference("rage", "aimbot", "silent aim")
@@ -68,38 +61,34 @@ local l_fov = ui_reference("legit", "aimbot", "maximum fov")
 
 --[[ draw functions ]]
 local function draw_rage(neww)
-	renderer.draw_text(defh+20, defw-2, 236, 240, 241, 255, small_font, "RAGE")
-	renderer.draw_text(defh, defw, 236, 240, 241, 255, logo_font, "A")
+	surface.draw_text(defh+20, defw-2, 236, 240, 241, 255, small_font, "RAGE")
+	surface.draw_text(defh, defw, 236, 240, 241, 255, logo_font, "A")
 
-	renderer.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "Aimbot:")
-	renderer.draw_text(defh+55, defw+neww, 26, 188, 156, 255, active_font, ui_get(rage_active))
-
-	neww = neww + 15
-	renderer.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "Target:")
-	renderer.draw_text(defh+55, defw+neww, 46, 204, 113, 255, active_font, ui_get(rage_target))
+	surface.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "Aimbot:")
+	surface.draw_text(defh+55, defw+neww, 26, 188, 156, 255, active_font, string.format("%s", string.format("%s", ui_get(rage_active))))
 
 	neww = neww + 15
-	renderer.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "MP Scale:")
-	renderer.draw_text(defh+65, defw+neww, 52, 152, 219, 255, active_font, ui_get(rage_mp_scale).."%")
+	surface.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "Target:")
+	surface.draw_text(defh+55, defw+neww, 46, 204, 113, 255, active_font, string.format("%s", ui_get(rage_target)))
 
 	neww = neww + 15
-	renderer.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "Dynamic MP:")
-	renderer.draw_text(defh+80, defw+neww, 26, 188, 156, 255, active_font, ui_get(rage_dyn_mp))
+	surface.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "MP Scale:")
+    surface.draw_text(defh+65, defw+neww, 52, 152, 219, 255, active_font, string.format("%s", ui_get(rage_mp_scale).."%"))
+    
+	neww = neww + 15
+	surface.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "AutoFire:")
+	surface.draw_text(defh+63, defw+neww, 26, 188, 156, 255, active_font, string.format("%s", ui_get(rage_autofire)))
 
 	neww = neww + 15
-	renderer.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "AutoFire:")
-	renderer.draw_text(defh+63, defw+neww, 26, 188, 156, 255, active_font, ui_get(rage_autofire))
+	surface.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "AutoWall:")
+	surface.draw_text(defh+65, defw+neww, 26, 188, 156, 255, active_font, string.format("%s", ui_get(rage_autowall)))
 
 	neww = neww + 15
-	renderer.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "AutoWall:")
-	renderer.draw_text(defh+65, defw+neww, 26, 188, 156, 255, active_font, ui_get(rage_autowall))
+	surface.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "SilentAim:")
+	surface.draw_text(defh+65, defw+neww, 26, 188, 156, 255, active_font, string.format("%s", ui_get(rage_silentaim)))
 
 	neww = neww + 15
-	renderer.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "SilentAim:")
-	renderer.draw_text(defh+65, defw+neww, 26, 188, 156, 255, active_font, ui_get(rage_silentaim))
-
-	neww = neww + 15
-	renderer.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "HitChance:")
+	surface.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "HitChance:")
 	if ui_get(rage_hitchance) <= 0 then
 		hitchance = "Off"
 		hitchanceR, hitchanceG, hitchanceB = 44, 62, 80
@@ -107,10 +96,10 @@ local function draw_rage(neww)
 		hitchance = ui_get(rage_hitchance).."%"
 		hitchanceR, hitchanceG, hitchanceB = 52, 152, 219
 	end
-	renderer.draw_text(defh+70, defw+neww, hitchanceR, hitchanceG, hitchanceB, 255, active_font, hitchance)
+	surface.draw_text(defh+70, defw+neww, hitchanceR, hitchanceG, hitchanceB, 255, active_font, hitchance)
 
 	neww = neww + 15
-	renderer.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "MinDamage:")
+	surface.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "MinDamage:")
 	if ui_get(rage_mindmg) <= 0 then
 		minimumdamage = "Auto"
 	elseif ui_get(rage_mindmg) >= 100 then
@@ -118,103 +107,103 @@ local function draw_rage(neww)
 	else
 		minimumdamage = ui_get(rage_mindmg)
 	end
-	renderer.draw_text(defh+77, defw+neww, 52, 152, 219, 255, active_font, minimumdamage)
+	surface.draw_text(defh+77, defw+neww, 52, 152, 219, 255, active_font, minimumdamage)
 
 	neww = neww + 15
-	renderer.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "AutoScope:")
-	renderer.draw_text(defh+75, defw+neww, 26, 188, 156, 255, active_font, ui_get(rage_autoscope))
+	surface.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "AutoScope:")
+	surface.draw_text(defh+75, defw+neww, 26, 188, 156, 255, active_font, string.format("%s", ui_get(rage_autoscope)))
 
 	neww = neww + 15
-	renderer.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "AimStep:")
-	renderer.draw_text(defh+62, defw+neww, 26, 188, 156, 255, active_font, ui_get(rage_aimstep))
+	surface.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "AimStep:")
+	surface.draw_text(defh+62, defw+neww, 26, 188, 156, 255, active_font, string.format("%s", ui_get(rage_aimstep)))
 
 	neww = neww + 15
-	renderer.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "NoRecoil:")
-	renderer.draw_text(defh+63, defw+neww, 26, 188, 156, 255, active_font, ui_get(rage_norecoil))
+	surface.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "NoRecoil:")
+	surface.draw_text(defh+63, defw+neww, 26, 188, 156, 255, active_font, string.format("%s", ui_get(rage_norecoil)))
 
 	neww = neww + 15
-	renderer.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "BackTrack:")
-	renderer.draw_text(defh+70, defw+neww, 46, 204, 113, 255, active_font, ui_get(rage_accboost))
+	surface.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "BackTrack:")
+	surface.draw_text(defh+70, defw+neww, 46, 204, 113, 255, active_font, string.format("%s", ui_get(rage_accboost)))
 
 	neww = neww + 15
-	renderer.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "AutoStop:")
-	renderer.draw_text(defh+67, defw+neww, 26, 188, 156, 255, active_font, ui_get(rage_autostop))
+	surface.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "AutoStop:")
+	surface.draw_text(defh+67, defw+neww, 26, 188, 156, 255, active_font, string.format("%s", ui_get(rage_autostop)))
 
 	neww = neww + 15
-	renderer.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "Resolver:")
-	renderer.draw_text(defh+63, defw+neww, 26, 188, 156, 255, active_font, ui_get(rage_resolver))
+	surface.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "Resolver:")
+	surface.draw_text(defh+63, defw+neww, 26, 188, 156, 255, active_font, string.format("%s", ui_get(rage_resolver)))
 end
 
 local function draw_aa(neww)
-	renderer.draw_text(defh+220, defw-2, 236, 240, 241, 255, small_font, "ANTI-AIMBOT")
-	renderer.draw_text(defh+200, defw, 236, 240, 241, 255, logo_font, "C")
+	surface.draw_text(defh+220, defw-2, 236, 240, 241, 255, small_font, "ANTI-AIMBOT")
+	surface.draw_text(defh+200, defw, 236, 240, 241, 255, logo_font, "C")
 
-	renderer.draw_text(defh+215, defw+neww, 236, 240, 241, 255, default_font, "Anti-Aimbot:")
-	renderer.draw_text(defh+280, defw+neww, 26, 188, 156, 255, active_font, ui_get(aa_enable))
-
-	neww = neww + 15
-	renderer.draw_text(defh+215, defw+neww, 236, 240, 241, 255, default_font, "Pitch:")
-	renderer.draw_text(defh+245, defw+neww, 46, 204, 113, 255, active_font, ui_get(aa_pitch))
+	surface.draw_text(defh+215, defw+neww, 236, 240, 241, 255, default_font, "Anti-Aimbot:")
+	surface.draw_text(defh+280, defw+neww, 26, 188, 156, 255, active_font, string.format("%s", ui_get(aa_enable)))
 
 	neww = neww + 15
-	renderer.draw_text(defh+215, defw+neww, 236, 240, 241, 255, default_font, "Yaw:")
-	renderer.draw_text(defh+240, defw+neww, 46, 204, 113, 255, active_font, ui_get(aa_yaw))
+	surface.draw_text(defh+215, defw+neww, 236, 240, 241, 255, default_font, "Pitch:")
+	surface.draw_text(defh+245, defw+neww, 46, 204, 113, 255, active_font, string.format("%s", ui_get(aa_pitch)))
 
 	neww = neww + 15
-	renderer.draw_text(defh+215, defw+neww, 236, 240, 241, 255, default_font, "Desync:")
-	renderer.draw_text(defh+257, defw+neww, 46, 204, 113, 255, active_font, ui_get(aa_desync_yaw))
+	surface.draw_text(defh+215, defw+neww, 236, 240, 241, 255, default_font, "Yaw:")
+	surface.draw_text(defh+240, defw+neww, 46, 204, 113, 255, active_font, string.format("%s", ui_get(aa_yaw)))
 
 	neww = neww + 15
-	renderer.draw_text(defh+215, defw+neww, 236, 240, 241, 255, default_font, "LBY-T:")
-	renderer.draw_text(defh+250, defw+neww, 46, 204, 113, 255, active_font, ui_get(aa_lby))
+	surface.draw_text(defh+215, defw+neww, 236, 240, 241, 255, default_font, "Desync:")
+	surface.draw_text(defh+257, defw+neww, 46, 204, 113, 255, active_font, string.format("%s", ui_get(aa_desync_yaw)))
 
 	neww = neww + 15
-	renderer.draw_text(defh+215, defw+neww, 236, 240, 241, 255, default_font, "Fakelag:")
-	renderer.draw_text(defh+260, defw+neww, 26, 188, 156, 255, active_font, ui_get(aa_fakelag))
+	surface.draw_text(defh+215, defw+neww, 236, 240, 241, 255, default_font, "LBY-T:")
+	surface.draw_text(defh+250, defw+neww, 46, 204, 113, 255, active_font, string.format("%s", ui_get(aa_lby)))
 
 	neww = neww + 15
-	renderer.draw_text(defh+215, defw+neww, 236, 240, 241, 255, default_font, "Amount:")
-	renderer.draw_text(defh+260, defw+neww, 46, 204, 113, 255, active_font, ui_get(aa_fakelag_amount))
+	surface.draw_text(defh+215, defw+neww, 236, 240, 241, 255, default_font, "Fakelag:")
+	surface.draw_text(defh+260, defw+neww, 26, 188, 156, 255, active_font, string.format("%s", ui_get(aa_fakelag)))
 
 	neww = neww + 15
-	renderer.draw_text(defh+215, defw+neww, 236, 240, 241, 255, default_font, "Variance:")
-	renderer.draw_text(defh+265, defw+neww, 52, 152, 219, 255, active_font, ui_get(aa_fakelag_variance))
+	surface.draw_text(defh+215, defw+neww, 236, 240, 241, 255, default_font, "Amount:")
+	surface.draw_text(defh+260, defw+neww, 46, 204, 113, 255, active_font, string.format("%s", ui_get(aa_fakelag_amount)))
 
 	neww = neww + 15
-	renderer.draw_text(defh+215, defw+neww, 236, 240, 241, 255, default_font, "Limit:")
-	renderer.draw_text(defh+245, defw+neww, 52, 152, 219, 255, active_font, ui_get(aa_fakelag_limit).." [ "..globals_chokedcommands().." ] ")
+	surface.draw_text(defh+215, defw+neww, 236, 240, 241, 255, default_font, "Variance:")
+	surface.draw_text(defh+265, defw+neww, 52, 152, 219, 255, active_font, string.format("%s", ui_get(aa_fakelag_variance)))
 
 	neww = neww + 15
-	renderer.draw_text(defh+215, defw+neww, 236, 240, 241, 255, default_font, "Inf-Duck:")
-	renderer.draw_text(defh+265, defw+neww, 26, 188, 156, 255, active_font, ui_get(aa_infduck))
+	surface.draw_text(defh+215, defw+neww, 236, 240, 241, 255, default_font, "Limit:")
+	surface.draw_text(defh+245, defw+neww, 52, 152, 219, 255, active_font, string.format("%s", ui_get(aa_fakelag_limit).." [ "..globals_chokedcommands().." ] "))
 
 	neww = neww + 15
-	renderer.draw_text(defh+215, defw+neww, 236, 240, 241, 255, default_font, "Onshot-AA:")
-	renderer.draw_text(defh+275, defw+neww, 26, 188, 156, 255, active_font, ui_get(aa_onshot))
+	surface.draw_text(defh+215, defw+neww, 236, 240, 241, 255, default_font, "Inf-Duck:")
+	surface.draw_text(defh+265, defw+neww, 26, 188, 156, 255, active_font, string.format("%s", ui_get(aa_infduck)))
+
+	neww = neww + 15
+	surface.draw_text(defh+215, defw+neww, 236, 240, 241, 255, default_font, "Onshot-AA:")
+	surface.draw_text(defh+275, defw+neww, 26, 188, 156, 255, active_font, string.format("%s", ui_get(aa_onshot)))
 end
 
 local function draw_legit(neww)
-	renderer.draw_text(defh+20, defw-2, 236, 240, 241, 255, small_font, "LEGIT")
-	renderer.draw_text(defh, defw, 236, 240, 241, 255, logo_font, "J")
+	surface.draw_text(defh+20, defw-2, 236, 240, 241, 255, small_font, "LEGIT")
+	surface.draw_text(defh, defw, 236, 240, 241, 255, logo_font, "J")
 
-	renderer.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "Aimbot:")
-	renderer.draw_text(defh+55, defw+neww, 26, 188, 156, 255, active_font, ui_get(l_aimbot))
-
-	neww = neww + 15
-	renderer.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "Backtrack:")
-	renderer.draw_text(defh+67, defw+neww, 46, 204, 113, 255, active_font, ui_get(l_backtrack))
+	surface.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "Aimbot:")
+	surface.draw_text(defh+55, defw+neww, 26, 188, 156, 255, active_font, string.format("%s", string.format("%s", ui_get(l_aimbot))))
 
 	neww = neww + 15
-	renderer.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "Reaction:")
-	renderer.draw_text(defh+67, defw+neww, 52, 152, 219, 255, active_font, ui_get(l_reaction))
+	surface.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "Backtrack:")
+	surface.draw_text(defh+67, defw+neww, 46, 204, 113, 255, active_font, string.format("%s", string.format("%s", ui_get(l_backtrack))))
 
 	neww = neww + 15
-	renderer.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "Field of View:")
-	renderer.draw_text(defh+80, defw+neww, 52, 152, 219, 255, active_font, ui_get(l_fov)/10)
+	surface.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "Reaction:")
+	surface.draw_text(defh+67, defw+neww, 52, 152, 219, 255, active_font, string.format("%s", string.format("%s", ui_get(l_reaction))))
 
 	neww = neww + 15
-	renderer.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "Triggerbot:")
-	renderer.draw_text(defh+73, defw+neww, 26, 188, 156, 255, active_font, ui_get(l_triggerbot))
+	surface.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "Field of View:")
+	surface.draw_text(defh+80, defw+neww, 52, 152, 219, 255, active_font, string.format("%s", ui_get(l_fov)/10))
+
+	neww = neww + 15
+	surface.draw_text(defh+15, defw+neww, 236, 240, 241, 255, default_font, "Triggerbot:")
+	surface.draw_text(defh+73, defw+neww, 26, 188, 156, 255, active_font, string.format("%s", ui_get(l_triggerbot)))
 end
 
 local function accumulate_fps() -- idk who to credit for this tbh.
@@ -267,26 +256,26 @@ local function draw_info(neww)
 	else
 		info_h = 150
 	end
-	renderer.draw_text(info_h+380, defw-2, 236, 240, 241, 255, small_font, "INFO")
-	renderer.draw_text(info_h+370, defw, 236, 240, 241, 255, info_font, "i")
-	renderer.draw_text(info_h+380, defw+neww, 236, 240, 241, 255, default_font, "FPS:")
-	renderer.draw_text(info_h+405, defw+neww, 26, 188, 156, 255, active_font, fps)
+	surface.draw_text(info_h+380, defw-2, 236, 240, 241, 255, small_font, "INFO")
+	surface.draw_text(info_h+370, defw, 236, 240, 241, 255, info_font, "i")
+	surface.draw_text(info_h+380, defw+neww, 236, 240, 241, 255, default_font, "FPS:")
+	surface.draw_text(info_h+405, defw+neww, 26, 188, 156, 255, active_font, string.format("%i", fps))
 
 	neww = neww+15
-	renderer.draw_text(info_h+380, defw+neww, 236, 240, 241, 255, default_font, "Ping:")
-	renderer.draw_text(info_h+407, defw+neww, 26, 188, 156, 255, active_font, math_floor(math_min(1000, client_latency()*1000)))
+	surface.draw_text(info_h+380, defw+neww, 236, 240, 241, 255, default_font, "Ping:")
+	surface.draw_text(info_h+407, defw+neww, 26, 188, 156, 255, active_font, string.format("%i", math_floor(math_min(1000, client_latency()*1000))))
 
 	neww = neww+15
-	renderer.draw_text(info_h+380, defw+neww, 236, 240, 241, 255, default_font, "Kills:")
-	renderer.draw_text(info_h+405, defw+neww, 26, 188, 156, 255, active_font, m_iKills)
+	surface.draw_text(info_h+380, defw+neww, 236, 240, 241, 255, default_font, "Kills:")
+	surface.draw_text(info_h+405, defw+neww, 26, 188, 156, 255, active_font, string.format("%i", m_iKills))
 
 	neww = neww+15
-	renderer.draw_text(info_h+380, defw+neww, 236, 240, 241, 255, default_font, "Deaths:")
-	renderer.draw_text(info_h+420, defw+neww, 26, 188, 156, 255, active_font, m_iDeaths)
+	surface.draw_text(info_h+380, defw+neww, 236, 240, 241, 255, default_font, "Deaths:")
+	surface.draw_text(info_h+420, defw+neww, 26, 188, 156, 255, active_font, string.format("%i", m_iDeaths))
 
 	neww = neww+15
-	renderer.draw_text(info_h+380, defw+neww, 236, 240, 241, 255, default_font, "K/D:")
-	renderer.draw_text(info_h+405, defw+neww, 26, 188, 156, 255, active_font, kd)
+	surface.draw_text(info_h+380, defw+neww, 236, 240, 241, 255, default_font, "K/D:")
+	surface.draw_text(info_h+405, defw+neww, 26, 188, 156, 255, active_font, string.format("%d",kd))
 end
 
 local function draw(ctx)
